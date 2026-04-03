@@ -31,7 +31,7 @@ export default function CartOffcanvas({ show, onHide }) {
         style={{
           position: 'fixed', top: 0, right: 0, height: '100vh',
           width: 'min(400px, 100vw)',
-          background: '#fff',
+          background: '#faf8f8',
           zIndex: 1050,
           transform: show ? 'translateX(0)' : 'translateX(100%)',
           transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1)',

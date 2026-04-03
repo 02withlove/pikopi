@@ -56,7 +56,7 @@ export default function AdminDashboard() {
         }}
       >
         <div style={{ fontFamily: 'Playfair Display', fontSize: '1.5rem', fontWeight: 700, color: 'var(--gold)' }}>
-          Selamat Datang, Admin! ☕
+          Selamat Datang, Rifky! ☕
         </div>
         <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.875rem', marginTop: 4 }}>
           {new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
