@@ -873,23 +873,114 @@ h1, h2, h3, .display-font {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
+
+  /* --- Sidebar: sembunyikan, slide dari kiri saat open --- */
   .admin-sidebar {
     transform: translateX(-100%);
+    z-index: 200;
   }
-
   .admin-sidebar.open {
     transform: translateX(0);
   }
 
+  /* --- Main: full width di HP --- */
   .admin-main {
     margin-left: 0;
+    width: 100%;
   }
 
+  /* --- Topbar: padding lebih kecil, jangan overflow --- */
+  .admin-topbar {
+    padding: 0.75rem 1rem;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+  .admin-topbar-title {
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+  }
+
+  /* --- Content: padding lebih kecil --- */
+  .admin-content {
+    padding: 1rem;
+  }
+
+  /* --- Stat cards: 2 kolom di HP --- */
+  .stat-card {
+    padding: 1rem;
+  }
+  .stat-num {
+    font-size: 1.5rem;
+  }
+
+  /* --- Table: scroll horizontal, teks lebih kecil --- */
+  .table-coffee {
+    font-size: 0.78rem;
+    min-width: 540px;
+  }
+  .table-coffee th,
+  .table-coffee td {
+    padding: 10px 10px;
+    white-space: nowrap;
+  }
+  .product-thumb {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* --- Table header: stack tombol di bawah judul --- */
+  .admin-table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  .admin-table-header button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* --- Modal: full screen di HP --- */
+  .modal-coffee .modal-dialog {
+    margin: 0.5rem;
+  }
+
+  /* --- Toast: full width di HP --- */
+  .toast-coffee {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  /* --- Landing page --- */
   .hero-img-wrap {
     margin-top: 3rem;
   }
-
   .hero-title { font-size: 2.8rem; }
+
+  /* --- Order section --- */
+  .order-card {
+    padding: 1.25rem;
+  }
+}
+
+/* Layar sangat kecil (< 400px) */
+@media (max-width: 400px) {
+  .admin-topbar-title {
+    font-size: 0.9rem;
+    max-width: 90px;
+  }
+  .admin-content {
+    padding: 0.75rem;
+  }
+  .stat-num {
+    font-size: 1.3rem;
+  }
+  .hero-title { font-size: 2.2rem; }
 }
 
 /* ===== LOADING SPINNER ===== */

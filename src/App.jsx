@@ -1,40 +1,56 @@
 import { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
+
 import { CartProvider } from './context/CartContext'
+import { AuthProvider } from './context/AuthContext'
+
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
 import MenuSection from './components/MenuSection'
 import AboutSection from './components/AboutSection'
 import OrderSection from './components/OrderSection'
 import Footer from './components/Footer'
-import AdminPage from './pages/AdminPage'
 import Toast from './components/Toast'
 
+import AuthPage from './pages/AuthPage'
+import AdminPage from './pages/AdminPage'
+
 export default function App() {
-  const [page, setPage] = useState('landing')
+  const [page, setPage] = useState('landing') // 'landing' | 'auth' | 'admin'
   const [toast, setToast] = useState(null)
 
-  const showToast = (msg, type) => {
+  const showToast = (msg, type = 'success') => {
     setToast({ msg, type })
     setTimeout(() => setToast(null), 3500)
   }
 
   return (
-    <CartProvider>
-      {toast && <Toast message={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
-      {page === 'landing' ? (
-        <>
-          <Navbar onNavigate={setPage} />
-          <HeroSection />
-          <MenuSection onToast={showToast} />
-          <AboutSection />
-          <OrderSection onToast={showToast} />
-          <Footer />
-        </>
-      ) : (
-        <AdminPage onNavigate={setPage} onToast={showToast} />
-      )}
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        {toast && (
+          <Toast message={toast.msg} type={toast.type} onClose={() => setToast(null)} />
+        )}
+
+        {page === 'landing' && (
+          <>
+            <Navbar onNavigate={setPage} />
+            <HeroSection />
+            <MenuSection onToast={showToast} />
+            <AboutSection />
+            <OrderSection onToast={showToast} />
+            <Footer />
+          </>
+        )}
+
+        {page === 'auth' && (
+          <AuthPage onNavigate={setPage} />
+        )}
+
+        {page === 'admin' && (
+          <AdminPage onNavigate={setPage} onToast={showToast} />
+        )}
+      </CartProvider>
+    </AuthProvider>
   )
 }

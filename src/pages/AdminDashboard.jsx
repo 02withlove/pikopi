@@ -56,7 +56,7 @@ export default function AdminDashboard() {
         }}
       >
         <div style={{ fontFamily: 'Playfair Display', fontSize: '1.5rem', fontWeight: 700, color: 'var(--gold)' }}>
-          Selamat Datang, Rifky! ☕
+          Selamat Datang, Admin! ☕
         </div>
         <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.875rem', marginTop: 4 }}>
           {new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
@@ -71,7 +71,7 @@ export default function AdminDashboard() {
           { icon: '⏳', label: 'Pesanan Pending', value: stats.pending, bg: '#fff3cd', color: '#856404' },
           { icon: '💰', label: 'Total Pendapatan', value: formatRp(stats.revenue), bg: '#d1e7dd', color: '#0a3622' },
         ].map((s) => (
-          <div key={s.label} className="col-sm-6 col-xl-3">
+          <div key={s.label} className="col-6 col-xl-3">
             <div className="stat-card">
               <div className="stat-icon" style={{ background: s.bg, color: s.color }}>{s.icon}</div>
               <div className="stat-num">{s.value}</div>

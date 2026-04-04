@@ -1,14 +1,24 @@
 import { useState } from 'react'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
 import CartOffcanvas from './CartOffcanvas'
 
 export default function Navbar({ onNavigate }) {
   const { count } = useCart()
+  const { user, profile, isAdmin, logout } = useAuth()
   const [showCart, setShowCart] = useState(false)
+  const [showUserMenu, setShowUserMenu] = useState(false)
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
+
+  const handleLogout = async () => {
+    setShowUserMenu(false)
+    await logout()
+  }
+
+  const initial = profile?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || '?'
 
   return (
     <>
@@ -32,7 +42,8 @@ export default function Navbar({ onNavigate }) {
             </div>
 
             {/* Right Actions */}
-            <div className="d-flex align-items-center gap-3">
+            <div className="d-flex align-items-center gap-2">
+              {/* Cart */}
               <button
                 className="btn btn-link text-decoration-none position-relative p-2"
                 onClick={() => setShowCart(true)}
@@ -45,20 +56,125 @@ export default function Navbar({ onNavigate }) {
                   </span>
                 )}
               </button>
-              <button
-                className="btn btn-sm px-3 py-2"
-                style={{
-                  background: 'rgba(212,168,67,0.15)',
-                  border: '1px solid rgba(212,168,67,0.4)',
-                  color: 'var(--gold)',
-                  borderRadius: '8px',
-                  fontSize: '0.8rem',
-                  fontWeight: 600,
-                }}
-                onClick={() => onNavigate('admin')}
-              >
-                Admin ↗
-              </button>
+
+              {/* Admin shortcut — hanya kalau isAdmin */}
+              {isAdmin && (
+                <button
+                  onClick={() => onNavigate('admin')}
+                  style={{
+                    background: 'rgba(212,168,67,0.15)',
+                    border: '1px solid rgba(212,168,67,0.4)',
+                    color: 'var(--gold)',
+                    borderRadius: 8,
+                    padding: '6px 14px',
+                    fontSize: '0.8rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  ⚙ Admin
+                </button>
+              )}
+
+              {/* Auth area */}
+              {!user ? (
+                <button
+                  onClick={() => onNavigate('auth')}
+                  style={{
+                    background: 'var(--gold)',
+                    border: 'none',
+                    color: 'var(--coffee-900)',
+                    borderRadius: 8,
+                    padding: '7px 16px',
+                    fontSize: '0.82rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Masuk
+                </button>
+              ) : (
+                <div style={{ position: 'relative' }}>
+                  {/* Avatar button */}
+                  <button
+                    onClick={() => setShowUserMenu(v => !v)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 8,
+                      background: 'rgba(255,255,255,0.08)',
+                      border: '1px solid rgba(255,255,255,0.15)',
+                      borderRadius: 100,
+                      padding: '5px 12px 5px 5px',
+                      cursor: 'pointer',
+                      color: '#fff',
+                    }}
+                  >
+                    <div style={{
+                      width: 28, height: 28, borderRadius: '50%',
+                      background: 'var(--gold)', color: 'var(--coffee-900)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontWeight: 800, fontSize: '0.8rem',
+                    }}>
+                      {initial}
+                    </div>
+                    <span style={{ fontSize: '0.82rem', fontWeight: 500, maxWidth: 90, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {profile?.name || user.email}
+                    </span>
+                    <span style={{ fontSize: '0.65rem', opacity: 0.6 }}>▾</span>
+                  </button>
+
+                  {/* Dropdown */}
+                  {showUserMenu && (
+                    <>
+                      <div onClick={() => setShowUserMenu(false)} style={{ position: 'fixed', inset: 0, zIndex: 999 }} />
+                      <div style={{
+                        position: 'absolute', top: 'calc(100% + 8px)', right: 0,
+                        background: '#fff', borderRadius: 14,
+                        minWidth: 200,
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+                        zIndex: 1000, overflow: 'hidden',
+                        border: '1px solid var(--coffee-100)',
+                      }}>
+                        {/* User info */}
+                        <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--coffee-100)', background: 'var(--cream)' }}>
+                          <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--coffee-900)' }}>
+                            {profile?.name || 'Pengguna'}
+                          </div>
+                          <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                            {user.email}
+                          </div>
+                          {isAdmin && (
+                            <div style={{
+                              marginTop: 6,
+                              display: 'inline-flex', alignItems: 'center', gap: 4,
+                              background: 'rgba(212,168,67,0.15)',
+                              border: '1px solid rgba(212,168,67,0.3)',
+                              color: 'var(--coffee-600)',
+                              padding: '2px 8px', borderRadius: 100,
+                              fontSize: '0.7rem', fontWeight: 700,
+                            }}>
+                              ⚙ Admin
+                            </div>
+                          )}
+                        </div>
+
+                        {isAdmin && (
+                          <button onClick={() => { setShowUserMenu(false); onNavigate('admin') }} style={dropdownItemStyle}>
+                            <span>📊</span> Dashboard Admin
+                          </button>
+                        )}
+                        <button onClick={() => { setShowUserMenu(false); scrollTo('order') }} style={dropdownItemStyle}>
+                          <span>📋</span> Buat Pesanan
+                        </button>
+                        <div style={{ borderTop: '1px solid var(--coffee-100)' }}>
+                          <button onClick={handleLogout} style={{ ...dropdownItemStyle, color: '#c1121f' }}>
+                            <span>🚪</span> Keluar
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -67,4 +183,14 @@ export default function Navbar({ onNavigate }) {
       <CartOffcanvas show={showCart} onHide={() => setShowCart(false)} />
     </>
   )
+}
+
+const dropdownItemStyle = {
+  display: 'flex', alignItems: 'center', gap: 10,
+  width: '100%', padding: '10px 16px',
+  background: 'none', border: 'none',
+  textAlign: 'left', cursor: 'pointer',
+  fontSize: '0.85rem', fontWeight: 500,
+  color: 'var(--coffee-800)',
+  fontFamily: 'DM Sans',
 }
