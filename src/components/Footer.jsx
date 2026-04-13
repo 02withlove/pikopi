@@ -64,8 +64,7 @@ export default function Footer() {
 
         <hr className="footer-divider" />
         <div className="d-flex justify-content-between align-items-center" style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.3)' }}>
-          <span>© 2024 KOPI.KO. All rights reserved.</span>
-          <span>Made with ☕ & ❤️</span>
+          <span>© 2026 KOPI.KO. All rights reserved.</span>
         </div>
       </div>
     </footer>

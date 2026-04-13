@@ -41,9 +41,10 @@ export default function HeroSection() {
               style={{ animation: 'fadeInUp 0.6s 0.6s ease both', opacity: 0, animationFillMode: 'both' }}
             >
               {[
-                { num: '12+', label: 'Varian Menu' },
-                { num: '5K+', label: 'Pelanggan Puas' },
-                { num: '4.9', label: 'Rating Google' },
+                // FITUR DI NON AKTIFKSN SMTARA
+                //{ num: '12+', label: 'Varian Menu' },
+                //{ num: '5K+', label: 'Pelanggan Puas' },
+                //{ num: '4.9', label: 'Rating Google' },
               ].map((s) => (
                 <div key={s.label} className="hero-stat">
                   <div className="hero-stat-num">{s.num}</div>
