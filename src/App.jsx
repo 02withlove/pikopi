@@ -12,12 +12,13 @@ import AboutSection from './components/AboutSection'
 import OrderSection from './components/OrderSection'
 import Footer from './components/Footer'
 import Toast from './components/Toast'
+import PWAInstallPrompt from './components/PWAInstallPrompt'
 
 import AuthPage from './pages/AuthPage'
 import AdminPage from './pages/AdminPage'
 
 export default function App() {
-  const [page, setPage] = useState('landing') // 'landing' | 'auth' | 'admin'
+  const [page, setPage] = useState('landing')
   const [toast, setToast] = useState(null)
 
   const showToast = (msg, type = 'success') => {
@@ -31,6 +32,9 @@ export default function App() {
         {toast && (
           <Toast message={toast.msg} type={toast.type} onClose={() => setToast(null)} />
         )}
+
+        {/* Banner install PWA — muncul otomatis kalau belum install */}
+        <PWAInstallPrompt />
 
         {page === 'landing' && (
           <>

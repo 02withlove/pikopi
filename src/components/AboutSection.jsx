@@ -60,7 +60,7 @@ export default function AboutSection() {
 
             <div>
               {[
-                { icon: '🌿', title: 'Bahan Premium Lokal', desc: 'Biji kopi dipilih langsung dari petani Aceh, Toraja, dan Flores.' },
+                { icon: '🫘', title: 'Bahan Premium Lokal', desc: 'Biji kopi dipilih langsung dari petani Aceh, Toraja, dan Flores.' },
                 { icon: '👨‍🍳', title: 'Barista Berpengalaman', desc: 'Tim kami berlatih di World Barista Championship, siap menyajikan yang terbaik.' },
                 { icon: '💚', title: 'Ramah Lingkungan', desc: 'Kemasan biodegradable & komitmen zero waste dalam operasional kami.' },
               ].map((f) => (
