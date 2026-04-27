@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { useCart } from '../context/CartContext'
+import { Coffee, Leaf, Croissant, LayoutGrid, Plus, ShoppingCart } from 'lucide-react'
 
 const categories = [
-  { key: 'all', label: 'Semua' },
-  { key: 'coffee', label: '☕ Coffee' },
-  { key: 'matcha', label: '🍵 Matcha' },
-  { key: 'food', label: '🥐 Food' },
+  { key: 'all',    label: 'Semua',  Icon: LayoutGrid },
+  { key: 'coffee', label: 'Coffee', Icon: Coffee },
+  { key: 'matcha', label: 'Matcha', Icon: Leaf },
+  { key: 'food',   label: 'Food',   Icon: Croissant },
 ]
 
 export default function MenuSection({ onToast }) {
@@ -15,15 +16,12 @@ export default function MenuSection({ onToast }) {
   const [loading, setLoading] = useState(true)
   const { dispatch } = useCart()
 
-  useEffect(() => {
-    fetchProducts()
-  }, [])
+  useEffect(() => { fetchProducts() }, [])
 
   const fetchProducts = async () => {
     setLoading(true)
     const { data } = await supabase
-      .from('products')
-      .select('*')
+      .from('products').select('*')
       .eq('is_available', true)
       .order('created_at', { ascending: false })
     setProducts(data || [])
@@ -54,13 +52,15 @@ export default function MenuSection({ onToast }) {
           </div>
           <div className="col-md-auto mt-3 mt-md-0">
             <div className="d-flex gap-2 flex-wrap">
-              {categories.map(c => (
+              {categories.map(({ key, label, Icon }) => (
                 <button
-                  key={c.key}
-                  className={`menu-filter-btn ${active === c.key ? 'active' : ''}`}
-                  onClick={() => setActive(c.key)}
+                  key={key}
+                  className={`menu-filter-btn ${active === key ? 'active' : ''}`}
+                  onClick={() => setActive(key)}
+                  style={{ display: 'flex', alignItems: 'center', gap: 6 }}
                 >
-                  {c.label}
+                  <Icon size={14} strokeWidth={2} />
+                  {label}
                 </button>
               ))}
             </div>
@@ -74,7 +74,7 @@ export default function MenuSection({ onToast }) {
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-5" style={{ color: 'var(--text-muted)' }}>
-            <div style={{ fontSize: '3rem' }}>☕</div>
+            <Coffee size={40} style={{ opacity: 0.3, marginBottom: 12 }} />
             <p>Belum ada produk di kategori ini</p>
           </div>
         ) : (
@@ -88,7 +88,12 @@ export default function MenuSection({ onToast }) {
                       alt={product.name}
                       onError={e => { e.target.src = 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400' }}
                     />
-                    <span className="product-category-badge">{product.category}</span>
+                    <span className="product-category-badge" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      {product.category === 'coffee' && <Coffee size={10} />}
+                      {product.category === 'matcha' && <Leaf size={10} />}
+                      {product.category === 'food' && <Croissant size={10} />}
+                      {product.category}
+                    </span>
                   </div>
                   <div className="product-body">
                     <h3 className="product-name">{product.name}</h3>
@@ -100,7 +105,7 @@ export default function MenuSection({ onToast }) {
                         onClick={() => handleAdd(product)}
                         title="Tambah ke keranjang"
                       >
-                        +
+                        <Plus size={18} strokeWidth={2.5} />
                       </button>
                     </div>
                   </div>

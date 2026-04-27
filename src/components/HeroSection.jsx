@@ -1,3 +1,5 @@
+import { ArrowDown, Coffee, Star, Users, Award } from 'lucide-react'
+
 export default function HeroSection() {
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
@@ -11,7 +13,7 @@ export default function HeroSection() {
           {/* Left */}
           <div className="col-lg-6">
             <div className="hero-tag">
-              <span>🏆</span>
+              <Award size={13} strokeWidth={2} />
               <span>Best Coffee in Town 2024</span>
             </div>
 
@@ -27,8 +29,8 @@ export default function HeroSection() {
             </p>
 
             <div className="d-flex gap-3 mt-4" style={{ animation: 'fadeInUp 0.6s 0.45s ease both', opacity: 0, animationFillMode: 'both' }}>
-              <button className="btn-hero-primary" onClick={() => scrollTo('menu')}>
-                Lihat Menu ↓
+              <button className="btn-hero-primary d-flex align-items-center gap-2" onClick={() => scrollTo('menu')}>
+                Lihat Menu <ArrowDown size={16} strokeWidth={2.5} />
               </button>
               <button className="btn-hero-outline" onClick={() => scrollTo('order')}>
                 Pesan Sekarang
@@ -36,18 +38,17 @@ export default function HeroSection() {
             </div>
 
             {/* Stats */}
-            <div
-              className="d-flex mt-5"
-              style={{ animation: 'fadeInUp 0.6s 0.6s ease both', opacity: 0, animationFillMode: 'both' }}
-            >
+            <div className="d-flex mt-5" style={{ animation: 'fadeInUp 0.6s 0.6s ease both', opacity: 0, animationFillMode: 'both' }}>
               {[
-                // FITUR DI NON AKTIFKSN SMTARA
-                //{ num: '12+', label: 'Varian Menu' },
-                //{ num: '5K+', label: 'Pelanggan Puas' },
-                //{ num: '4.9', label: 'Rating Google' },
+                { Icon: Coffee,  num: '12+', label: 'Varian Menu' },
+                { Icon: Users,   num: '5K+', label: 'Pelanggan Puas' },
+                { Icon: Star,    num: '4.9', label: 'Rating Google' },
               ].map((s) => (
                 <div key={s.label} className="hero-stat">
-                  <div className="hero-stat-num">{s.num}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                    <s.Icon size={14} color="var(--gold)" strokeWidth={1.8} />
+                    <div className="hero-stat-num">{s.num}</div>
+                  </div>
                   <div className="hero-stat-label">{s.label}</div>
                 </div>
               ))}
@@ -62,29 +63,23 @@ export default function HeroSection() {
                 alt="Coffee"
                 className="hero-img-main"
               />
-              {/* Floating badge */}
               <div className="hero-img-badge">
-                <div className="num">☕</div>
+                <Coffee size={24} color="var(--coffee-900)" strokeWidth={1.8} />
                 <div style={{ fontSize: '0.75rem', fontWeight: 700, marginTop: 4 }}>Fresh Daily</div>
               </div>
-              {/* Floating card top-right */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: -16,
-                  right: -16,
-                  background: 'rgba(255,255,255,0.95)',
-                  backdropFilter: 'blur(12px)',
-                  borderRadius: 16,
-                  padding: '14px 20px',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
-                }}
-              >
-                <div style={{ fontFamily: 'Playfair Display', fontWeight: 700, fontSize: '0.9rem', color: 'var(--coffee-900)' }}>
+              <div style={{
+                position: 'absolute', top: -16, right: -16,
+                background: 'rgba(255,255,255,0.95)',
+                backdropFilter: 'blur(12px)',
+                borderRadius: 16, padding: '14px 20px',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
+              }}>
+                <div style={{ fontFamily: 'Playfair Display', fontWeight: 700, fontSize: '0.9rem', color: 'var(--coffee-900)', display: 'flex', alignItems: 'center', gap: 6 }}>
                   Open Today
                 </div>
-                <div style={{ color: 'var(--success)', fontSize: '0.8rem', fontWeight: 600 }}>
-                  ● 07:00 – 22:00
+                <div style={{ color: 'var(--success)', fontSize: '0.8rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5, marginTop: 2 }}>
+                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--success)', display: 'inline-block' }} />
+                  07:00 – 22:00
                 </div>
               </div>
             </div>
